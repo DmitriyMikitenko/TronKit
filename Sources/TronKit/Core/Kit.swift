@@ -123,6 +123,10 @@ public extension Kit {
         transactionManager.handle(newTransaction: newTransaction)
         return newTransaction.txID
     }
+    
+    func rawTransactionData(contract: Contract, signer: Signer, feeLimit: Int? = 0) async throws -> Data {
+        try await transactionSender.rawTransaction(contract: contract, signer: signer, feeLimit: feeLimit)
+    }
 
     func accountActive(address: Address) async throws -> Bool {
         try await feeProvider.isAccountActive(address: address)
