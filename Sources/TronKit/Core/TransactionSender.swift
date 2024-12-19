@@ -53,9 +53,7 @@ extension TransactionSender {
         var transaction = Protocol_Transaction()
         transaction.rawData = rawData
         transaction.signature = [signature]
-        
-        let string = try transaction.jsonString()
-        
+                
         return (createdTransaction, signature)//.serializedData()
     }
     
