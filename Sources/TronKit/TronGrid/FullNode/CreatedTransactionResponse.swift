@@ -1,7 +1,7 @@
 import Foundation
 import ObjectMapper
 
-struct CreatedTransactionResponse: ImmutableMappable {
+public struct CreatedTransactionResponse: ImmutableMappable {
     let txID: Data
     let rawData: TransactionResponse.RawData
     let rawDataHex: Data

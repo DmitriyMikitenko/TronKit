@@ -124,7 +124,7 @@ public extension Kit {
         return newTransaction.txID
     }
     
-    func rawTransactionData(contract: Contract, signer: Signer, feeLimit: Int? = 0) async throws -> Data {
+    func rawTransactionData(contract: Contract, signer: Signer, feeLimit: Int? = 0) async throws -> (CreatedTransactionResponse, Data) {
         try await transactionSender.rawTransaction(contract: contract, signer: signer, feeLimit: feeLimit)
     }
 

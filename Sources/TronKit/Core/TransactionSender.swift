@@ -9,7 +9,7 @@ class TransactionSender {
 }
 
 extension TransactionSender {
-    func rawTransaction(contract: Contract, signer: Signer, feeLimit: Int?) async throws -> Data {
+    func rawTransaction(contract: Contract, signer: Signer, feeLimit: Int?) async throws -> (CreatedTransactionResponse, Data)   {
         var createdTransaction: CreatedTransactionResponse
 
         guard let contract = contract as? SupportedContract else {
@@ -39,7 +39,7 @@ extension TransactionSender {
         default: throw Kit.SendError.notSupportedContract
         }
 
-        let rawData = try Protocol_Transaction.raw(serializedData: createdTransaction.rawDataHex)
+        let rawData = try Protocol_Transaction.raw(serializedBytes: createdTransaction.rawDataHex)
 
         guard rawData.contract.count == 1,
               let contractMessage = rawData.contract.first,
@@ -54,7 +54,9 @@ extension TransactionSender {
         transaction.rawData = rawData
         transaction.signature = [signature]
         
-        return try transaction.serializedData()
+        let string = try transaction.jsonString()
+        
+        return (createdTransaction, signature)//.serializedData()
     }
     
     func sendTransaction(contract: Contract, signer: Signer, feeLimit: Int?) async throws -> CreatedTransactionResponse {
