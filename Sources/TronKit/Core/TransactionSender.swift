@@ -39,7 +39,7 @@ extension TransactionSender {
         default: throw Kit.SendError.notSupportedContract
         }
 
-        let rawData = try Protocol_Transaction.raw(serializedBytes: createdTransaction.rawDataHex)
+        let rawData = try Protocol_Transaction.raw(serializedData: createdTransaction.rawDataHex)
 
         guard rawData.contract.count == 1,
               let contractMessage = rawData.contract.first,
