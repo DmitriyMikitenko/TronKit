@@ -9,7 +9,7 @@ class TransactionSender {
 }
 
 extension TransactionSender {
-    func rawTransaction(contract: Contract, signer: Signer, feeLimit: Int?) async throws -> (CreatedTransactionResponse, Data)   {
+    public func rawTransaction(contract: Contract, signer: Signer, feeLimit: Int?) async throws -> String {//(CreatedTransactionResponse, Data)   {
         var createdTransaction: CreatedTransactionResponse
 
         guard let contract = contract as? SupportedContract else {
@@ -54,7 +54,7 @@ extension TransactionSender {
         transaction.rawData = rawData
         transaction.signature = [signature]
                 
-        return (createdTransaction, signature)//.serializedData()
+        return try transaction.serializedData().hs.hex//(createdTransaction, signature)//.serializedData()
     }
     
     func sendTransaction(contract: Contract, signer: Signer, feeLimit: Int?) async throws -> CreatedTransactionResponse {
