@@ -146,14 +146,16 @@ extension Syncer: ISyncTimerDelegate {
                 self?.transactionManager.process(initial: lastTxTimestamp == 0 || lastTrc20TxTimestamp == 0)
                 self?.set(state: .synced)
             } catch {
-                if let requestError = error as? TronGridProvider.RequestError,
-                   case .failedToFetchAccountInfo = requestError
-                {
-                    self?.accountInfoManager.handleInactiveAccount()
-                    self?.set(state: .synced)
-                } else {
-                    self?.set(state: .notSynced(error: error))
-                }
+//                if let requestError = error as? TronGridProvider.RequestError,
+//                   case .failedToFetchAccountInfo = requestError
+//                {
+//                    self?.accountInfoManager.handleInactiveAccount()
+//                    self?.set(state: .synced)
+//                } else {
+//                    self?.set(state: .notSynced(error: error))
+//                }
+                self?.set(state: .notSynced(error: error))
+
             }
         }.store(in: &tasks)
     }
