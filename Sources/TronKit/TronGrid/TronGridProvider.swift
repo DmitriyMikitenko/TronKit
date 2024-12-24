@@ -126,9 +126,7 @@ extension TronGridProvider {
             throw RequestError.failedToFetchAccountInfo
         }
 
-//        return try AccountInfoResponse(JSON: result.data[0])
-        throw RequestError.failedToFetchAccountInfo
-
+        return try AccountInfoResponse(JSON: result.data[0])
     }
 
     func fetchTransactions(address: String, minTimestamp: Int, fingerprint: String?) async throws -> (transactions: [ITransactionResponse], fingerprint: String?, completed: Bool) {
