@@ -1,7 +1,9 @@
 import HsExtensions
+import Dispatch
 
 class Syncer {
     private var tasks = Set<AnyTask>()
+    private let tasksQueue = DispatchQueue(label: "com.tronkit.tasksQueue")
 
     private let accountInfoManager: AccountInfoManager
     private let transactionManager: TransactionManager
@@ -76,12 +78,14 @@ extension Syncer: ISyncTimerDelegate {
             set(state: .syncing(progress: nil))
             sync()
         case let .notReady(error):
-            tasks = Set()
+            tasksQueue.sync { [weak self] in
+                self?.tasks = Set()
+            }
             set(state: .notSynced(error: error))
         }
     }
-
-    func sync() {
+    
+    func threadSafeSync() {
         Task { [weak self, lastBlockHeight, tronGridProvider, address, storage] in
             do {
                 guard let syncer = self, !syncer.syncing else {
@@ -152,5 +156,11 @@ extension Syncer: ISyncTimerDelegate {
                 }
             }
         }.store(in: &tasks)
+    }
+
+    func sync() {
+        tasksQueue.sync { [weak self] in
+            self?.threadSafeSync()
+        }
     }
 }
