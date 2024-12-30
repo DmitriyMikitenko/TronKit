@@ -646,7 +646,7 @@ public struct DelegateResourceContract: Contract {
         resource = try map.value("resource")
         balance = try map.value("balance")
         receiverAddress = try map.value("receiver_address", using: HexAddressTransform())
-        lock = try map.value("lock")
+        lock = false//try map.value("lock")
     }
 
     public func ownTransaction(ownAddress: Address) -> Bool {
