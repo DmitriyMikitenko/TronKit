@@ -78,7 +78,7 @@ extension Syncer: ISyncTimerDelegate {
             set(state: .syncing(progress: nil))
             sync()
         case let .notReady(error):
-            tasksQueue.sync { [weak self] in
+            tasksQueue.async { [weak self] in
                 self?.tasks = Set()
             }
             set(state: .notSynced(error: error))
@@ -159,7 +159,7 @@ extension Syncer: ISyncTimerDelegate {
     }
 
     func sync() {
-        tasksQueue.sync { [weak self] in
+        tasksQueue.async { [weak self] in
             self?.threadSafeSync()
         }
     }
