@@ -20,6 +20,10 @@ public extension Signer {
     static func instance(seed: Data) throws -> Signer {
         try Signer(privateKey: privateKey(seed: seed))
     }
+    
+    static func instance(privateKey: Data) -> Signer {
+        Signer(privateKey: privateKey)
+    }
 
     static func address(seed: Data) throws -> Address {
         try address(privateKey: privateKey(seed: seed))
